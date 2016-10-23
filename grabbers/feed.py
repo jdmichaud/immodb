@@ -13,6 +13,8 @@ from db import addentries, addentry
 
 logging.getLogger("requests").setLevel(logging.WARNING)
 
+FIREFOX_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1'
+
 databases = []
 
 class Feed(object):
@@ -47,7 +49,8 @@ class Feed(object):
     while page is None:
       try:
         logging.info('fetching %s' % url)
-        page = requests.get(url, timeout=2)
+        user_agent = {'User-agent': FIREFOX_USER_AGENT}
+        page = requests.get(url, timeout=2, headers = user_agent)
       except:
         # If the site becomes recalcitrant
         logging.info('timeout fetching %s' % url)
@@ -68,7 +71,7 @@ class Feed(object):
 #                                SeLoger.com                                  #
 ###############################################################################
 class SeLoger(Feed):
-  def __init__(self):
+  def __init__(self, dbfilename):
     self.root_url = 'http://www.seloger.fr/'
     self.url_params = 'list.htm?ci=__code_postal__&idtt=__code_transaction__&idtypebien=__type_bien__&nb_pieces=__nb_piece__'
     self.db_name = 'seloger.csv'
@@ -78,7 +81,7 @@ class SeLoger(Feed):
       '__nb_piece__': [1, 2, 3, 4, 5, '5+'],
       '__type_bien__': [1], #[1,2], # Appartement: 1 et Maison: 2
     }
-    self.db_filename = 'seloger.db.csv'
+    self.db_filename = dbfilename
     self.db = {}
     super(SeLoger, self).__init__()
 
@@ -131,12 +134,13 @@ class SeLoger(Feed):
       yield page
 
   def sanity_check(self):
-    # Check that when looling for INSEE code without a result, the page
+    # Check that when looking for INSEE code without a result, the page
     # displaying results *CLOSES* to the original search still shows up
     # the same
-    # 060079 is Mandelieu-la-Napoule. A small city with not much result
-    # but near to Cannes so Cannes result will show up,
-    page = self.load_page("http://www.seloger.com/list.htm?ci=060079&idtt=2&idtypebien=1&nb_pieces=5&LISTING-LISTpg=120")
+    # 390490 is Saint-Loup. A small village with not much result
+    # but near to Tavaux so Tavaux result will show up,
+    # We wan't to check we are able to catch that.
+    page = self.load_page("http://www.seloger.com/list.htm?idtt=2&ci=390490")
     # we check the presence of a div with class annonce_prox_bloc
     if page.xpath("//div[@class='annonce_prox_bloc']") != []:
       return True

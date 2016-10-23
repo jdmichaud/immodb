@@ -36,15 +36,15 @@ def setup_logger():
   # logger.addHandler(fh)
   logger.addHandler(ch)
 
-def main(feed_name):
+def main(feed_name, dbfilename):
   setup_logger()
-  seloger = getattr(feed, feed_name)()
-  seloger.fetch()
+  feed_instance = getattr(feed, feed_name)(dbfilename)
+  feed_instance.fetch()
 
 if __name__ == '__main__':
-  if len(sys.argv) != 2:
-    print "usage: shell.py FeedName"
+  if len(sys.argv) != 3:
+    print "usage: shell.py FeedName dbfile"
     sys.exit(1)
 
   atexit.register(exit_handler)
-  main(sys.argv[1])
+  main(sys.argv[1], sys.argv[2])
