@@ -1,0 +1,30 @@
+#main {
+  width: 100%;
+}
+
+#map {
+  float: left;
+}
+
+#info {
+  padding-top: 200px;
+  text-align: center;
+}
+
+h2#departement-name {
+  text-transform: lowercase;
+}
+
+h2#departement-name:first-letter {
+  text-transform: uppercase;
+}
+
+path.departement { 
+  /*stroke: #777;*/
+}
+
+path.departement:hover { 
+  pointer-events:all; /* Necessary to catch hover */
+  stroke: #00F;
+  stroke-width: 3px;
+}

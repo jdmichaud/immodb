@@ -1,0 +1,10 @@
+data
+**/*.pyc
+**/*~
+**/*.DS_Store
+**/*.~
+**/*.log
+**/*.zip
+**/*.coverage
+public/static/
+

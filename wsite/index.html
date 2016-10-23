@@ -1,0 +1,35 @@
+<!-- http://bost.ocks.org/mike/map/ -->
+<html ng-app="visifrance">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta name="keywords" content="immobilier france statistiques">
+  <meta name="description" content="Visualisation de statistiques immobilieres pour la France">
+  <meta name="location" content="France, FRANCE">
+  <meta name="language" content="FR">
+  <meta name="googlebot" content="all" >
+  <meta name="robots" content="all" >
+  <title>Immobilier en France</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="main" ng-controller="visifrance_controller">
+    <div id="map">
+    </div>
+    <div id="info">
+      <h2 id="departement-name" ng-show="show_info">{{ departement }}</h2>
+      <p ng-show="show_info">Prix moyen m&#178;: {{ average_price_per_m_square }}</p>
+      <p ng-show="show_info">Nombre d'appartement en vente: {{ nb_appart_vente }}</p>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.4/angular.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+
+  <script src="/visifrance.js"></script>
+</body>
